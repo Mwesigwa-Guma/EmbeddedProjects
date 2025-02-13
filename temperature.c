@@ -1,7 +1,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <stdio.h>
-#include "Common/serial.h"
+#include "Common/helpers.h"
 
 #define F_CPU 16000000UL
 #define BAUD 9600
