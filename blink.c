@@ -1,10 +1,11 @@
 #include <util/delay.h>
 
-#define BLINK_MS 150
-
 // Define the memory-mapped registers for DDRB and PORTB
 #define DDRB  (*(volatile unsigned char*)0x24)
 #define PORTB (*(volatile unsigned char*)0x25)
+
+// Define the delay time in milliseconds
+#define BLINK_MS 150
 
 // Define the bit for PB5 (pin 13 on Arduino Uno)
 #define PB5 5
