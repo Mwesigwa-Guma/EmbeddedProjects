@@ -15,8 +15,12 @@ int main(void) {
     // Set pin 7 as input
     DDRD &= ~(1 << PD2);
 
+    // Enable pull-up resistor on PD2
+    PORTD |= (1 << PD2);
+
     // Configure INT0 (PD2) to trigger on falling edge
     EICRA |= (1 << ISC01);
+    EICRA &= ~(1 << ISC00);
     EIMSK |= (1 << INT0);
 
     sei();
@@ -36,5 +40,5 @@ int main(void) {
 ISR(INT0_vect) {
     uart_println("Button pressed!");
     // Small delay to debounce the button
-        _delay_ms(150);
+    _delay_ms(50);
 }
