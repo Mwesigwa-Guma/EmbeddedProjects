@@ -5,7 +5,9 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "/path/to/avr/include",
-                "/path/to/util/include"
+                "/path/to/util/include",
+                "~/Library/Arduino15/packages/arduino/hardware/avr/1.8.6/libraries/Wire/src",
+                "~/Library/Arduino15/packages/arduino/hardware/avr/1.8.6/cores/arduino"
             ],
             "defines": [],
             "compilerPath": "/path/to/avr-gcc",

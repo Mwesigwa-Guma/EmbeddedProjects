@@ -1,4 +1,6 @@
 #include "helpers.h"
+#include <stdarg.h>
+#include <stdio.h>
 
 void uart_init(unsigned int ubrr) {
     // Set baud rate
@@ -17,14 +19,25 @@ void uart_transmit(unsigned char data) {
     UDR0 = data;
 }
 
-void uart_print(const char *str) {
+void uart_print(const char *format, ...) {
+    char buffer[256];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    const char *str = buffer;
     while (*str) {
         uart_transmit(*str++);
     }
 }
 
-void uart_println(const char *str) {
-    uart_print(str);
-    uart_transmit('\r');
-    uart_transmit('\n');
+void uart_println(const char *format, ...) {
+    char buffer[256];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    uart_print("%s\r\n", buffer);
 }
