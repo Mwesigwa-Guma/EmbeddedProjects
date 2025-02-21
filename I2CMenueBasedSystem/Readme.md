@@ -19,7 +19,6 @@ This project aims to develop an I2C-based menu system using an LCD display and a
 ## How to Build the Project
 
 ### Prerequisites
-- **Arduino IDE** or **PlatformIO** installed.
 - **avr-gcc** and **avrdude** installed.
 - **Make** utility installed.
 

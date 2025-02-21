@@ -4,7 +4,7 @@ This repository contains various Arduino projects. Each project is organized int
 
 ## Project Subfolders
 
-- **I2CMenueBasedSystem**: Contains projects related to I2C based menu subsystem with LCD screen.
+- **I2CMenueBasedSystem**: Contains project related to I2C based menu subsystem with LCD screen.
 
 - **More Projects Coming Soon**: Stay tuned for more exciting Arduino projects that will be added to this repository.
 
