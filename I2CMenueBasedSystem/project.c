@@ -12,6 +12,13 @@
 #define THRESHOLD 100
 
 void button_init();
+void update_menu(uint8_t cursor_position);
+
+// Global variables for menu items
+const char menu_item_1[] = "First item";
+const char menu_item_2[] = "Second item";
+const char item_1[] = "First selected";
+const char item_2[] = "Second selected";
 
 int main(void) {
     // Initialize UART
@@ -26,9 +33,17 @@ int main(void) {
 
     const uint16_t threshold = 200;
     const uint16_t center = 512;
+    uint8_t cursor_position = 0;
 
     // Enable global interrupts
     sei();
+
+    // Initial menu display
+    lcd_clear();
+    lcd_print_row(0, menu_item_1);
+    lcd_print_row(1, menu_item_2);
+    lcd_set_cursor(0, 0);
+    lcd_show_cursor();
 
     while (1) {
         // Read Y analog value from ADC channel
@@ -36,12 +51,13 @@ int main(void) {
 
         // Determine direction based on thresholds
         if (yValue < center - threshold) {
-            lcd_clear();
-            lcd_print("first item");
+            cursor_position = 0;
         } else if (yValue > center + threshold) {
-            lcd_clear();
-            lcd_print("second item");
+            cursor_position = 1;
         }
+
+        // Update cursor position
+        lcd_set_cursor(cursor_position, 0);
 
         // Main loop does not need to handle button press
         // Button press is handled by ISR
@@ -70,5 +86,14 @@ ISR(INT0_vect) {
     // Check if button is still pressed
     if (!(PIND & (1 << JOYSTICK_BUTTON_PIN))) {
         uart_println("Button pressed");
+
+        // Check cursor position and display the corresponding item
+        if (lcd_get_cursor_row() == 0) {
+            lcd_clear();
+            lcd_print_row(0, item_1);
+        } else if (lcd_get_cursor_row() == 1) {
+            lcd_clear();
+            lcd_print_row(0, item_2);
+        }
     }
 }

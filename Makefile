@@ -1,3 +1,5 @@
+PORT=/dev/tty.usbmodem1101
+
 all: menuproject
 
 menuproject:
@@ -9,5 +11,8 @@ cleanmenuproject:
 installmenuproject:
 	$(MAKE) -C I2CMenueBasedSystem installproject
 
-serialmonitor:
+clean:
+	$(MAKE) -C I2CMenueBasedSystem clean
+
+sermon:
 	screen $(PORT) 9600
