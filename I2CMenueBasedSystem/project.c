@@ -9,7 +9,6 @@
 #define JOYSTICK_Y 1 // ADC channel for Y-axis
 #define JOYSTICK_BUTTON_PIN PD2 // Pin connected to joystick button
 #define THRESHOLD 100
-#define BLINK_MS 150
 
 void button_init();
 void update_menu(uint8_t cursor_position);
