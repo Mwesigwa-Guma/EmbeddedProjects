@@ -67,3 +67,9 @@ void lcd_backlight_on() {
     i2c_write(LCD_BACKLIGHT);
     i2c_stop();
 }
+
+// Function to clear the screen
+void lcd_clear() {
+    lcd_send(0x01, LCD_CMD); // Clear display command
+    _delay_ms(5); // Wait for the command to complete
+}

@@ -7,17 +7,20 @@ CC=avr-gcc -Wall -D F_CPU=16000000UL -Os -mmcu=$(DEVICE)
 
 all: project
 
-helpers.o: ../Common/helpers.c
-	$(CC) -c ../Common/helpers.c -o helpers.o
-
 i2c.o: ../Common/i2c.c
 	$(CC) -c ../Common/i2c.c -o i2c.o
 
 lcd.o: ../Common/lcd.c
 	$(CC) -c ../Common/lcd.c -o lcd.o
 
-project: project.o helpers.o i2c.o lcd.o
-	$(CC) -o project.elf project.o helpers.o i2c.o lcd.o
+uart.o: ../Common/uart.c
+	$(CC) -c ../Common/uart.c -o uart.o
+
+adc.o: ../Common/adc.c
+	$(CC) -c ../Common/adc.c -o adc.o
+
+project: project.o i2c.o lcd.o uart.o adc.o
+	$(CC) -o project.elf project.o i2c.o lcd.o uart.o adc.o
 	avr-objcopy -O ihex -R .eeprom project.elf project.hex
 	avr-size --format=avr --mcu=$(DEVICE) project.elf
 
