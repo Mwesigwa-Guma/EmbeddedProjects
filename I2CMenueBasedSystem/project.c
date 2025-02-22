@@ -1,4 +1,5 @@
 #include <avr/io.h>
+#include <avr/interrupt.h>
 #include <util/delay.h>
 #include "../Common/i2c.h"
 #include "../Common/lcd.h"
@@ -7,11 +8,10 @@
 
 #define JOYSTICK_X 0 // ADC channel for X-axis
 #define JOYSTICK_Y 1 // ADC channel for Y-axis
-#define JOYSTICK_BUTTON_PIN PD2
+#define JOYSTICK_BUTTON_PIN PD2 // Pin connected to joystick button
 #define THRESHOLD 100
 
 void button_init();
-uint8_t button_read();
 
 int main(void) {
     // Initialize UART
@@ -27,6 +27,9 @@ int main(void) {
     const uint16_t threshold = 200;
     const uint16_t center = 512;
 
+    // Enable global interrupts
+    sei();
+
     while (1) {
         // Read Y analog value from ADC channel
         uint16_t yValue = adc_read(JOYSTICK_Y); // Assuming VRY is connected to ADC1
@@ -40,10 +43,8 @@ int main(void) {
             lcd_print("second item");
         }
 
-        // Read joystick button state
-        if (button_read() == 0) { // Button pressed
-            uart_println("Button pressed");
-        }
+        // Main loop does not need to handle button press
+        // Button press is handled by ISR
 
         _delay_ms(200); // Delay for readability
     }
@@ -52,10 +53,22 @@ int main(void) {
 }
 
 void button_init() {
-    DDRD &= ~(1 << JOYSTICK_BUTTON_PIN); // Set button pin as input
-    PORTD |= (1 << JOYSTICK_BUTTON_PIN); // Enable pull-up resistor
+    // Set button pin as input
+    DDRD &= ~(1 << JOYSTICK_BUTTON_PIN);
+    // Enable pull-up resistor
+    PORTD |= (1 << JOYSTICK_BUTTON_PIN);
+
+    // Enable external interrupt on INT0 (PD2)
+    EICRA |= (1 << ISC01); // Trigger on falling edge
+    EIMSK |= (1 << INT0);  // Enable INT0
 }
 
-uint8_t button_read() {
-    return PIND & (1 << JOYSTICK_BUTTON_PIN); // Read button state
+// Interrupt Service Routine for INT0
+ISR(INT0_vect) {
+    // Debounce delay
+    _delay_ms(50);
+    // Check if button is still pressed
+    if (!(PIND & (1 << JOYSTICK_BUTTON_PIN))) {
+        uart_println("Button pressed");
+    }
 }
