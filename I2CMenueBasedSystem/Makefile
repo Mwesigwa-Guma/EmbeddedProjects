@@ -16,8 +16,11 @@ lcd.o: ../Common/lcd.c
 uart.o: ../Common/uart.c
 	$(CC) -c ../Common/uart.c -o uart.o
 
-project: project.o i2c.o lcd.o uart.o
-	$(CC) -o project.elf project.o i2c.o lcd.o uart.o
+adc.o: ../Common/adc.c
+	$(CC) -c ../Common/adc.c -o adc.o
+
+project: project.o i2c.o lcd.o uart.o adc.o
+	$(CC) -o project.elf project.o i2c.o lcd.o uart.o adc.o
 	avr-objcopy -O ihex -R .eeprom project.elf project.hex
 	avr-size --format=avr --mcu=$(DEVICE) project.elf
 
