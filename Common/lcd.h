@@ -9,5 +9,6 @@ void lcd_enable_pulse(uint8_t data);
 void lcd_init();
 void lcd_print(const char *str);
 void lcd_backlight_on();
+void lcd_clear(); // Function to clear the screen
 
 #endif // LCD_H
