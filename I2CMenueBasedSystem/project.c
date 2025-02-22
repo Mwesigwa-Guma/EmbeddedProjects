@@ -3,7 +3,6 @@
 #include <util/delay.h>
 #include "../Common/i2c.h"
 #include "../Common/lcd.h"
-#include "../Common/uart.h"
 #include "../Common/adc.h"
 
 #define JOYSTICK_X 0 // ADC channel for X-axis
@@ -12,12 +11,20 @@
 #define THRESHOLD 100
 
 void button_init();
+void update_menu(uint8_t cursor_position);
+void initial_screen();
+void led_init();
+void led_stop();
+
+// Global variables for menu items
+const char menu_item_1[] = "Blink LED";
+const char menu_item_2[] = "Turn on Buzzer";
+const char item_1[] = "Blinking";
+const char item_2[] = "Buzzing";
+
+volatile uint8_t led_blinking = 0;
 
 int main(void) {
-    // Initialize UART
-    uart_init(103); // 9600 baud rate for 16MHz clock
-    uart_println("Button test");
-
     // Initialize ADC, I2C, and LCD
     adc_init();
     i2c_init();
@@ -26,25 +33,36 @@ int main(void) {
 
     const uint16_t threshold = 200;
     const uint16_t center = 512;
+    uint8_t cursor_position = 0;
 
     // Enable global interrupts
     sei();
 
+    // Initial screen
+    initial_screen();
+
     while (1) {
         // Read Y analog value from ADC channel
         uint16_t yValue = adc_read(JOYSTICK_Y); // Assuming VRY is connected to ADC1
+        uint16_t xValue = adc_read(JOYSTICK_X); // Assuming VRX is connected to ADC0
 
         // Determine direction based on thresholds
         if (yValue < center - threshold) {
-            lcd_clear();
-            lcd_print("first item");
+            cursor_position = 0;
         } else if (yValue > center + threshold) {
-            lcd_clear();
-            lcd_print("second item");
+            cursor_position = 1;
+        } else if (xValue > center + threshold) {
+            initial_screen();
         }
+
+        // Update cursor position
+        lcd_set_cursor(cursor_position, 0);
 
         // Main loop does not need to handle button press
         // Button press is handled by ISR
+
+        if (led_blinking)
+            PORTB ^= (1 << PB5);  // Toggle PB5 (pin 13)
 
         _delay_ms(200); // Delay for readability
     }
@@ -63,12 +81,40 @@ void button_init() {
     EIMSK |= (1 << INT0);  // Enable INT0
 }
 
+void initial_screen() {
+    led_stop(); // Stop blinking before showing the initial screen
+    lcd_clear();
+    lcd_print_row(0, menu_item_1);
+    lcd_print_row(1, menu_item_2);
+    lcd_set_cursor(0, 0);
+    lcd_show_cursor();
+}
+
+void led_init() {
+    DDRB |= (1 << PB5);  // Set PB5 (pin 13) as output
+    led_blinking = 1;
+}
+
+void led_stop() {
+    // stop blinking 
+    DDRB &= ~(1 << PB5);  // Set PB5 (pin 13) as input
+    led_blinking = 0;
+}
+
 // Interrupt Service Routine for INT0
 ISR(INT0_vect) {
     // Debounce delay
     _delay_ms(50);
     // Check if button is still pressed
     if (!(PIND & (1 << JOYSTICK_BUTTON_PIN))) {
-        uart_println("Button pressed");
+        // Check cursor position and display the corresponding item
+        if (lcd_get_cursor_row() == 0) {
+            led_init();
+            lcd_clear();
+            lcd_print_row(0, item_1);
+        } else if (lcd_get_cursor_row() == 1) {
+            lcd_clear();
+            lcd_print_row(1, item_2);
+        }
     }
 }

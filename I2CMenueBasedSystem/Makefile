@@ -30,8 +30,5 @@ project.o: project.c
 installproject:
 	avrdude -V -p $(DEVICE) -c $(PROGRAMMER) -P $(PORT) -b $(BAUD) -U flash:w:project.hex:i
 
-serialmonitor:
-	screen $(PORT) 9600
-
 clean:
 	rm *.o *.elf *.hex

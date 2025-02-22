@@ -8,6 +8,9 @@
 #define LCD_CMD 0    // Command mode
 #define LCD_DATA 1   // Data mode
 
+static uint8_t cursor_row = 0;
+static uint8_t cursor_col = 0;
+
 // Function to send data/commands to LCD via I2C (4-bit mode)
 void lcd_send(uint8_t value, uint8_t mode) {
     lcd_write_nibble(value & 0xF0, mode); // Send high nibble
@@ -60,6 +63,12 @@ void lcd_print(const char *str) {
     }
 }
 
+// Function to print a string to a specific row on the LCD
+void lcd_print_row(uint8_t row, const char *str) {
+    lcd_set_cursor(row, 1); // Set cursor to the start of the specified row
+    lcd_print(str); // Print the string
+}
+
 // Function to turn on LCD backlight
 void lcd_backlight_on() {
     i2c_start();
@@ -72,4 +81,32 @@ void lcd_backlight_on() {
 void lcd_clear() {
     lcd_send(0x01, LCD_CMD); // Clear display command
     _delay_ms(5); // Wait for the command to complete
+}
+
+// Function to set the cursor position
+void lcd_set_cursor(uint8_t row, uint8_t col) {
+    uint8_t address = (row == 0) ? col : (0x40 + col);
+    lcd_send(0x80 | address, LCD_CMD);
+    cursor_row = row;
+    cursor_col = col;
+}
+
+// Function to show the cursor
+void lcd_show_cursor() {
+    lcd_send(0x0E, LCD_CMD); // Display ON, Cursor ON
+}
+
+// Function to hide the cursor
+void lcd_hide_cursor() {
+    lcd_send(0x0C, LCD_CMD); // Display ON, Cursor OFF
+}
+
+// Function to get the cursor row
+uint8_t lcd_get_cursor_row() {
+    return cursor_row;
+}
+
+// Function to get the cursor column
+uint8_t lcd_get_cursor_col() {
+    return cursor_col;
 }
