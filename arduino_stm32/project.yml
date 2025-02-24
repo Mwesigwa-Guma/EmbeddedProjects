@@ -97,12 +97,13 @@
 # see documentation for the many options for specifying this.
 :paths:
   :test:
-    - +:test/**
+    - +:test/
     - -:test/support
   :source:
-    - src/**
+    - src/
   :include:
-    - src/** # In simple projects, this entry often duplicates :source
+    - src/ # In simple projects, this entry often duplicates :source
+    - /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/avr/include/ # Correct path to AVR library
   :support:
     - test/support
   :libraries: []
@@ -120,6 +121,9 @@
 #  - Referencing symbols in multiple lists using advanced YAML
 #  - Specifiying symbols used during test preprocessing
 :defines:
+  :commmon:
+    - F_CPU=16000000UL
+    - DEVICE=atmega328p
   :test:
     - TEST # Simple list option to add symbol 'TEST' to compilation of all files in all test executables
   :release: []
@@ -399,4 +403,26 @@
 #     :arguments: []
 #     :name: 
 #     :optional: FALSE
+
+:tools:
+  :test_compiler:
+    :executable: avr-gcc
+    :arguments:
+      - -Wall
+      - -Os
+      - -mmcu=atmega328p
+      - -DEVICE=atmega328p
+      - -DF_CPU=16000000UL
+      - -I"src"
+      - -I"src/Common"
+  :test_linker:
+    :executable: avr-gcc
+    :arguments:
+      - -Wall
+      - -Os
+      - -mmcu=atmega328p
+      - -DDEVICE=atmega328p
+      - -DF_CPU=16000000UL
+      - -I"src"
+      - -I"src/Common"
 ...

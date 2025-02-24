@@ -35,3 +35,13 @@ ceedling create:test[my_module]
 ```
 
 This will generate a test file for `my_module` in the `test` directory.
+
+## Run Tests
+
+To run tests in your Ceedling project, use the following command:
+
+```sh
+ceedling test:all
+```
+
+This will execute all the tests in your project and display the results in the terminal.
