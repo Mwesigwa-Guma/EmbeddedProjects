@@ -1,0 +1,245 @@
+\documentclass{article}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{API Specification for Common Components}
+\author{}
+\date{}
+\maketitle
+
+\section{Introduction}
+This document provides the API specifications for the common components used in the project. These components are located in the \texttt{Common} directory and include the following modules:
+\begin{itemize}
+   \item ADC (Analog-to-Digital Converter)
+   \item I2C (Inter-Integrated Circuit)
+   \item LCD (Liquid Crystal Display)
+   \item UART (Universal Asynchronous Receiver-Transmitter)
+\end{itemize}
+
+\section{ADC (Analog-to-Digital Converter)}
+
+\subsection{Header File: \texttt{adc.h}}
+
+\subsubsection{Functions}
+
+\begin{itemize}
+   \item \texttt{void adc\_init()}
+   \begin{itemize}
+      \item \textbf{Description}: Initializes the ADC module.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{uint16\_t adc\_read(uint8\_t channel)}
+   \begin{itemize}
+      \item \textbf{Description}: Reads the analog value from the specified ADC channel.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t channel}: The ADC channel to read from (0-7).
+      \end{itemize}
+      \item \textbf{Returns}: The 10-bit analog value read from the specified channel.
+   \end{itemize}
+\end{itemize}
+
+\section{I2C (Inter-Integrated Circuit)}
+
+\subsection{Header File: \texttt{i2c.h}}
+
+\subsubsection{Functions}
+
+\begin{itemize}
+   \item \texttt{void i2c\_init()}
+   \begin{itemize}
+      \item \textbf{Description}: Initializes the I2C interface.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void i2c\_start()}
+   \begin{itemize}
+      \item \textbf{Description}: Sends a start condition on the I2C bus.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void i2c\_stop()}
+   \begin{itemize}
+      \item \textbf{Description}: Sends a stop condition on the I2C bus.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void i2c\_write(uint8\_t data)}
+   \begin{itemize}
+      \item \textbf{Description}: Writes a byte of data to the I2C bus.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t data}: The data byte to be written.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+\end{itemize}
+
+\section{LCD (Liquid Crystal Display)}
+
+\subsection{Header File: \texttt{lcd.h}}
+
+\subsubsection{Functions}
+
+\begin{itemize}
+   \item \texttt{void lcd\_send(uint8\_t value, uint8\_t mode)}
+   \begin{itemize}
+      \item \textbf{Description}: Sends data or commands to the LCD via I2C in 4-bit mode.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t value}: The value to be sent.
+         \item \texttt{uint8\_t mode}: The mode (command or data).
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_write\_nibble(uint8\_t nibble, uint8\_t mode)}
+   \begin{itemize}
+      \item \textbf{Description}: Writes 4 bits to the LCD with the backlight enabled.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t nibble}: The 4-bit value to be written.
+         \item \texttt{uint8\_t mode}: The mode (command or data).
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_enable\_pulse(uint8\_t data)}
+   \begin{itemize}
+      \item \textbf{Description}: Generates an enable pulse to latch data into the LCD.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t data}: The data to be latched.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_init()}
+   \begin{itemize}
+      \item \textbf{Description}: Initializes the LCD.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_print(const char *str)}
+   \begin{itemize}
+      \item \textbf{Description}: Prints a string to the LCD.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{const char *str}: The string to be printed.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_print\_row(uint8\_t row, const char *str)}
+   \begin{itemize}
+      \item \textbf{Description}: Prints a string to a specific row on the LCD.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t row}: The row number (0 or 1).
+         \item \texttt{const char *str}: The string to be printed.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_backlight\_on()}
+   \begin{itemize}
+      \item \textbf{Description}: Turns on the LCD backlight.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_clear()}
+   \begin{itemize}
+      \item \textbf{Description}: Clears the LCD screen.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_set\_cursor(uint8\_t row, uint8\_t col)}
+   \begin{itemize}
+      \item \textbf{Description}: Sets the cursor position on the LCD.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{uint8\_t row}: The row number (0 or 1).
+         \item \texttt{uint8\_t col}: The column number (0-15).
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_show\_cursor()}
+   \begin{itemize}
+      \item \textbf{Description}: Shows the cursor on the LCD.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void lcd\_hide\_cursor()}
+   \begin{itemize}
+      \item \textbf{Description}: Hides the cursor on the LCD.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{uint8\_t lcd\_get\_cursor\_row()}
+   \begin{itemize}
+      \item \textbf{Description}: Gets the current cursor row.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: The current cursor row (0 or 1).
+   \end{itemize}
+
+   \item \texttt{uint8\_t lcd\_get\_cursor\_col()}
+   \begin{itemize}
+      \item \textbf{Description}: Gets the current cursor column.
+      \item \textbf{Parameters}: None
+      \item \textbf{Returns}: The current cursor column (0-15).
+   \end{itemize}
+\end{itemize}
+
+\section{UART (Universal Asynchronous Receiver-Transmitter)}
+
+\subsection{Header File: \texttt{uart.h}}
+
+\subsubsection{Functions}
+
+\begin{itemize}
+   \item \texttt{void uart\_init(unsigned int ubrr)}
+   \begin{itemize}
+      \item \textbf{Description}: Initializes the UART with the specified baud rate.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{unsigned int ubrr}: The baud rate register value.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void uart\_putchar(char c)}
+   \begin{itemize}
+      \item \textbf{Description}: Sends a character via UART.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{char c}: The character to be sent.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+
+   \item \texttt{void uart\_println(const char *str, ...)}
+   \begin{itemize}
+      \item \textbf{Description}: Sends a formatted string followed by a newline via UART.
+      \item \textbf{Parameters}:
+      \begin{itemize}
+         \item \texttt{const char *str}: The format string.
+         \item \texttt{...}: The values to be formatted and sent.
+      \end{itemize}
+      \item \textbf{Returns}: None
+   \end{itemize}
+\end{itemize}
+
+\end{document}
