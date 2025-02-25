@@ -9,6 +9,11 @@ build/
 
 # Ignore all .log files in any directory
 *.log
+*.out
+*.fls
+*.aux
+*.synctex.gz
+*fdb_latexmk
 
 # Ignore all files in a specific directory but keep the directory itself
 logs/*
