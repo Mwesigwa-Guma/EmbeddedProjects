@@ -7,6 +7,8 @@
 # Ignore build directory
 build/
 
+.vscode/
+
 # Ignore all .log files in any directory
 *.log
 *.out
