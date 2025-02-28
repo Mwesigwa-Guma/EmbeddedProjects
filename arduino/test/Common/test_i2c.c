@@ -1,21 +1,35 @@
+#include <avr/io.h>
+#include <util/delay.h>
+#include "../../src/Common/i2c.h"
+#include "../../src/Common/uart.h"
 
-#ifdef TEST
+void test_i2c_init() {
+    i2c_init();
 
-#include "unity.h"
-
-#include "i2c.h"
-
-void setUp(void)
-{
+    // Check if TWBR and TWSR are configured correctly
+    if (TWBR == ((F_CPU / 100000UL) - 16) / 2 && (TWSR & ((1 << TWPS1) | (1 << TWPS0))) == 0) {
+        uart_println("I2C Init: PASSED\n");
+    } else {
+        uart_println("I2C Init: FAILED\n");
+    }
 }
 
-void tearDown(void)
-{
+void test_i2c_start() {
+    i2c_start();
+    // Check if the start condition was transmitted
+    if ((TWSR & 0xF8) == 0x08) {
+        uart_println("I2C Start: PASSED\n");
+    } else {
+        uart_println("I2C Start: FAILED\n");
+    }
 }
 
-void test_i2c_NeedToImplement(void)
-{
-    TEST_IGNORE_MESSAGE("Need to Implement i2c");
-}
+int main() {
+    uart_init();  // Initialize UART for debugging
+    _delay_ms(1000); // Wait for stability
 
-#endif // TEST
+    test_i2c_init();
+    test_i2c_start();
+
+    while (1);
+}

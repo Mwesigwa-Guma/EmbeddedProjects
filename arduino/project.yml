@@ -55,11 +55,11 @@
     - test/support
   :source:
     - src/Common
-    - /Users/mwesigwaguma/Desktop/repos/Projects/AdruinoProjects/arduino_stm32/build/vendor/unity/src # Add this line to include Unity source
+    - /Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/arduino/build/vendor/unity/src # Add this line to include Unity source
   :include:
     - src/Common
     - /opt/homebrew/Cellar/avr-gcc@9/9.4.0_1/avr/include/
-    - /Users/mwesigwaguma/Desktop/repos/Projects/AdruinoProjects/arduino_stm32/build/vendor/unity/src # Ensure this path is correct
+    - /Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/arduino/build/vendor/unity/src # Ensure this path is correct
   :support:
     - test/support
   :libraries: []
@@ -69,7 +69,7 @@
     - test/Common/test_*.c
   :source:
     - src/Common/*.c
-    - /Users/mwesigwaguma/Desktop/repos/Projects/AdruinoProjects/arduino_stm32/build/vendor/unity/src # Add this line to include Unity source file
+    - /Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/arduino/build/vendor/unity/src # Add this line to include Unity source file
 
 :defines:
   :common: []
@@ -85,7 +85,7 @@
       - -Os
       - -I"src"
       - -I"src/Common"
-      - -I"/Users/mwesigwaguma/Desktop/repos/Projects/AdruinoProjects/arduino_stm32/build/vendor/unity/src" # Ensure this path is correct
+      - -I"/Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/arduino/build/vendor/unity/src" # Ensure this path is correct
       - ${1} # Add this line to include the input file :test_linker:
     :executable: gcc
     :arguments:
@@ -93,7 +93,7 @@
       - -Os
       - -I"src"
       - -I"src/Common"
-      - -I"/Users/mwesigwaguma/Desktop/repos/Projects/AdruinoProjects/arduino_stm32/build/vendor/unity/src" # Ensure this path is correct
+      - -I"/Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/arduino_stm32/build/vendor/unity/src" # Ensure this path is correct
       - ${1} # Add this line to include the input file
   :test_linker:
     :executable: gcc
