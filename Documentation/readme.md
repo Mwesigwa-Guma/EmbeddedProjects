@@ -2,14 +2,14 @@
 
 ## Overview
 
-This project involves controlling various peripherals using Arduino and STM32 boards. The `Documentation` folder contains detailed specifications for the interfaces implemented to control arduino and stm32 board peripherals.
+This project involves controlling various peripherals using Arduino, STM32 and ESP32 boards. This folder contains detailed specifications for the interfaces implemented to control arduino and stm32 board peripherals.
 
 ## Documentation Folder
 
-The `Documentation` folder includes:
+This folder includes:
 
 - **Specifications for Implemented Interfaces**: Detailed descriptions of the interfaces used to control different peripherals on the Arduino board.
-- **Future Plans for STM32 Board**: While no implementation has been done on the STM32 board yet, future projects will utilize this board. The specifications provided will guide the development of these future implementations.
+- **Future Plans for STM32 and ESP32 Boards**: While no implementation has been done on the STM32 and ESP32 boards yet, future projects will utilize these boards. The specifications provided will guide the development of these future implementations.
 
 ## Future Work
 
