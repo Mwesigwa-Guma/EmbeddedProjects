@@ -73,6 +73,12 @@ Ctrl + ]
    ```sh
    idf.py flash
    ```
+   or
+   
+   ```sh
+   idf.py -p /dev/tty.usbserial-110 flash monitor
+   ```
+
 
 3. **Monitor the Serial Output**:
    ```sh
