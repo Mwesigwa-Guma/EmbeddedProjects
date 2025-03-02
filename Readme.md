@@ -10,19 +10,16 @@ The repository is structured as follows:
   - **src/**: Source files for Arduino projects.
     - **Common/**: Common modules used across different Arduino projects (e.g., ADC, I2C, LCD, UART).
     - **I2CMenueBasedSystem/**: Project for an I2C-based menu system using an LCD display and joystick for navigation.
-  - **test/**: Test files for Arduino projects, organized to work with Ceedling.
+  - **test/**: Test files for Arduino projects, organized for integration testing.
   - **build/**: Build artifacts and logs for Arduino projects.
-  - **project.yml**: Ceedling configuration file for testing Arduino projects.
 
 - **esp32/**: Contains projects related to ESP32 boards.
   - **src/**: Source files for ESP32 projects.
-  - **test/**: Test files for ESP32 projects, organized to work with Ceedling.
-  - **project.yml**: Ceedling configuration file for testing ESP32 projects.
+  - **test/**: Test files for ESP32 projects, organized for integration testing.
 
 - **stm32/**: Contains projects related to STM32 boards.
   - **src/**: Source files for STM32 projects.
-  - **test/**: Test files for STM32 projects, organized to work with Ceedling.
-  - **project.yml**: Ceedling configuration file for testing STM32 projects.
+  - **test/**: Test files for STM32 projects, organized for integration testing.
 
 - **Documentation/**: Contains documentation for the projects.
   - **Arduino/**: Documentation specific to Arduino projects.
@@ -33,9 +30,9 @@ The repository is structured as follows:
 
 This repository is set up for low-level bare-metal programming, providing detailed control over the hardware. The projects utilize different microcontroller boards, including Arduino, ESP32, and STM32, each organized into its respective subfolder. The readme file within each subfolder provides more details about the specific project.
 
-## Testing with Ceedling
+## Testing with Integration Tests
 
-The projects are set up to handle testing using Ceedling, a test-centered build system for C. Each subdirectory for the boards (Arduino, ESP32, STM32) includes a `test` folder containing test files and a `project.yml` file for Ceedling configuration. This setup ensures that the projects are thoroughly tested and maintain high code quality.
+The projects are set up to handle testing using integration tests, as the code is dependent on hardware. Each subdirectory for the boards (Arduino, ESP32, STM32) includes a `test` folder containing test files. This setup ensures that the projects are thoroughly tested in an environment that closely mimics the actual hardware, maintaining high code quality.
 
 ## Project Subfolders
 
