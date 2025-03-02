@@ -1,10 +1,3 @@
-Here is the updated section for your 
-
-README.md
-
- file that includes instructions for installing Python and the ESP-IDF using Homebrew:
-
-```markdown
 # Setting Up ESP-IDF Locally
 
 To set up the ESP-IDF development environment locally and use the `idf.py` command, follow these steps:
@@ -13,6 +6,7 @@ To set up the ESP-IDF development environment locally and use the `idf.py` comma
 
 1. **Install Python**:
    Ensure you have Python installed. You can install it using Homebrew if it's not already installed:
+
    ```sh
    brew install python
    ```
@@ -64,7 +58,7 @@ idf.py monitor
 ### Quit the Serial Monitor
 
 To quit the serial monitor, press the following key combination:
-```
+```sh
 Ctrl + ]
 ```
 
@@ -86,8 +80,8 @@ Ctrl + ]
    ```
 
 4. **Quit the Serial Monitor**:
-   Press `Ctrl + ]`
-```
+   ```sh
+   Ctrl + ]
+   ```
 
-This section provides a comprehensive guide on setting up the ESP-IDF development environment locally using Homebrew and using the `idf.py` command for building, flashing, and monitoring ESP32 projects.
 This section provides a comprehensive guide on setting up the ESP-IDF development environment locally using Homebrew and using the `idf.py` command for building, flashing, and monitoring ESP32 projects.
