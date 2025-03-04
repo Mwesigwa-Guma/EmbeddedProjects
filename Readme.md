@@ -17,7 +17,7 @@ The repository is structured as follows:
   - **src/**: Source files for ESP32 projects.
 
 - **Documentation/**: Contains documentation for the projects.
-  - **Arduino/**: Documentation specific to Arduino projects and drivers for Arduino board.
+  - **atmega328p/**: Documentation specific to Arduino projects and drivers for Arduino board.
   - **readme.md**: Overview of the documentation folder.
 
 ## Overview
