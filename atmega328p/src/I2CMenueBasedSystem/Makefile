@@ -7,17 +7,17 @@ CC=avr-gcc -Wall -D F_CPU=16000000UL -Os -mmcu=$(DEVICE)
 
 all: project
 
-i2c.o: ../Common/i2c.c
-	$(CC) -c ../Common/i2c.c -o i2c.o
+i2c.o: ../drivers/i2c.c
+	$(CC) -c ../drivers/i2c.c -o i2c.o
 
-lcd.o: ../Common/lcd.c
-	$(CC) -c ../Common/lcd.c -o lcd.o
+lcd.o: ../drivers/lcd.c
+	$(CC) -c ../drivers/lcd.c -o lcd.o
 
-uart.o: ../Common/uart.c
-	$(CC) -c ../Common/uart.c -o uart.o
+uart.o: ../drivers/uart.c
+	$(CC) -c ../drivers/uart.c -o uart.o
 
-adc.o: ../Common/adc.c
-	$(CC) -c ../Common/adc.c -o adc.o
+adc.o: ../drivers/adc.c
+	$(CC) -c ../drivers/adc.c -o adc.o
 
 project: project.o i2c.o lcd.o uart.o adc.o
 	$(CC) -o project.elf project.o i2c.o lcd.o uart.o adc.o
