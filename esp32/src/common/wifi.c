@@ -6,6 +6,7 @@
 #include "esp_err.h"
 #include "nvs_flash.h"
 #include "wifi.h"
+#include "secrets.h"
 #include <string.h>
 
 static const char *TAG = "wifi_station";
@@ -59,8 +60,7 @@ void wifi_init_sta(void) {
                                                         NULL));
 }
 
-void wifi_connect(const char* ssid, const char* password) {
-    wifi_init_nvs();
+void wifi_connect(void) {
     wifi_init_sta();
 
     wifi_config_t wifi_config = {
@@ -69,8 +69,8 @@ void wifi_connect(const char* ssid, const char* password) {
             .password = "",
         },
     };
-    strncpy((char*)wifi_config.sta.ssid, ssid, sizeof(wifi_config.sta.ssid) - 1);
-    strncpy((char*)wifi_config.sta.password, password, sizeof(wifi_config.sta.password) - 1);
+    strncpy((char*)wifi_config.sta.ssid, WIFI_SSID, sizeof(wifi_config.sta.ssid) - 1);
+    strncpy((char*)wifi_config.sta.password, WIFI_PASSWORD, sizeof(wifi_config.sta.password) - 1);
 
     ESP_ERROR_CHECK(esp_wifi_set_mode(WIFI_MODE_STA));
     ESP_ERROR_CHECK(esp_wifi_set_config(ESP_IF_WIFI_STA, &wifi_config));
@@ -87,10 +87,10 @@ void wifi_connect(const char* ssid, const char* password) {
 
     if (bits & WIFI_CONNECTED_BIT) {
         ESP_LOGI(TAG, "connected to ap SSID:%s password:%s",
-                 ssid, password);
+                 WIFI_SSID, WIFI_PASSWORD);
     } else {
         ESP_LOGI(TAG, "Failed to connect to SSID:%s, password:%s",
-                 ssid, password);
+                 WIFI_SSID, WIFI_PASSWORD);
     }
 }
 

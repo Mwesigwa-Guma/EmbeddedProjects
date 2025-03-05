@@ -17,6 +17,7 @@ build/
 *.synctex.gz
 *fdb_latexmk
 *.old
+*.bin
 
 #ignore secrets file
 secrets.h
