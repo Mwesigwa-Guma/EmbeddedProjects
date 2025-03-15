@@ -1,9 +1,9 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "../Common/i2c.h"
-#include "../Common/lcd.h"
-#include "../Common/adc.h"
+#include "../drivers/i2c.h"
+#include "../drivers/lcd.h"
+#include "../drivers/adc.h"
 
 #define JOYSTICK_X 0 // ADC channel for X-axis
 #define JOYSTICK_Y 1 // ADC channel for Y-axis
@@ -25,7 +25,9 @@ const char menu_item_2[] = "Turn on Buzzer";
 const char item_1[] = "Blinking";
 const char item_2[] = "Buzzing";
 
-volatile uint8_t led_blinking = 0;
+volatile uint8_t action_flag = 0; // Flag to indicate action
+volatile uint8_t cursor_position = 0; // Cursor position
+volatile uint8_t display_updated = 0; // Flag to indicate display update
 
 int main(void) {
     // Initialize ADC, I2C, and LCD
@@ -38,7 +40,6 @@ int main(void) {
 
     const uint16_t threshold = 200;
     const uint16_t center = 512;
-    uint8_t cursor_position = 0;
 
     // Enable global interrupts
     sei();
@@ -63,6 +64,18 @@ int main(void) {
         // Update cursor position
         lcd_set_cursor(cursor_position, 0);
 
+        // Check action flag and perform corresponding actions
+        if (action_flag == 1 && !display_updated) {
+            lcd_clear();
+            lcd_print_row(0, item_1);
+            display_updated = 1; // Set display updated flag
+        } else if (action_flag == 2 && !display_updated) {
+            buzzer_on();
+            lcd_clear();
+            lcd_print_row(1, item_2);
+            display_updated = 1; // Set display updated flag
+        }
+
         // Toggle LED if Blink LED is chosen
         led_toggle();
 
@@ -84,7 +97,6 @@ void button_init() {
 }
 
 void initial_screen() {
-    
     led_stop(); // Stop blinking LED
     buzzer_off(); // Turn off buzzer
 
@@ -95,33 +107,35 @@ void initial_screen() {
     lcd_show_cursor();
 }
 
-void led_init() {
+inline void led_init() {
     DDRB |= (1 << PB5);  // Set PB5 (pin 13) as output
     PORTB &= ~(1 << PB5); // Turn off led
 }
 
-void led_toggle() {
-    if(led_blinking)
+inline void led_toggle() {
+    if(action_flag == 1){
         PORTB ^= (1 << PB5);  // Toggle PB5 (pin 13)
+    }
 }
 
-void led_stop() {
+inline void led_stop() {
     // stop blinking 
-        PORTB &= ~(1 << PB5); // Turn off led
-        led_blinking = 0;
+    PORTB &= ~(1 << PB5); // Turn off led
+    action_flag = 0;
 }
 
-void buzzer_init() {
+inline void buzzer_init() {
     // Set buzzer pin as output
     DDRD |= (1 << PD7);
 }
 
-void buzzer_on() {
+inline void buzzer_on() {
     PORTD |= (1 << PD7); // Turn on buzzer
 }
 
-void buzzer_off() {
+inline void buzzer_off() {
     PORTD &= ~(1 << PD7); // Turn off buzzer
+    action_flag = 0;
 }
 
 // Interrupt Service Routine for INT0
@@ -130,15 +144,12 @@ ISR(INT0_vect) {
     _delay_ms(50);
     // Check if button is still pressed
     if (!(PIND & (1 << JOYSTICK_BUTTON_PIN))) {
-        // Check cursor position and display the corresponding item
-        if (lcd_get_cursor_row() == 0) {
-            led_blinking = 1;
-            lcd_clear();
-            lcd_print_row(0, item_1);
-        } else if (lcd_get_cursor_row() == 1) {
-            buzzer_on();
-            lcd_clear();
-            lcd_print_row(1, item_2);
+        // Check cursor position and set action flag
+        if (cursor_position == 0) {
+            action_flag = 1; // Set flag for LED blinking
+        } else if (cursor_position == 1) {
+            action_flag = 2; // Set flag for buzzer
         }
+        display_updated = 0; // Reset display updated flag
     }
 }

@@ -4,12 +4,12 @@
 
 #define F_CPU 16000000UL
 #define BAUD 9600
-#define MYUBRR F_CPU/16/BAUD-1
+#define MYUBRR ((F_CPU/16/BAUD)-1)
 
 void uart_init() {
     // Set baud rate
-    UBRR0H = (unsigned char)(MYUBRR >> 8);
-    UBRR0L = (unsigned char)MYUBRR;
+    UBRR0H = (unsigned char)((MYUBRR) >> 8);
+    UBRR0L = (unsigned char)(MYUBRR);
     // Enable receiver and transmitter
     UCSR0B = (1 << RXEN0) | (1 << TXEN0);
     // Set frame format: 8 data bits, 1 stop bit
