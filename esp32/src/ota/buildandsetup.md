@@ -70,7 +70,7 @@ Configure the ESP32 HTTP client with the certificate:
 ```c
 esp_http_client_config_t config = {
     .url = ******,
-    .cert_pem = (char *)server_cert_pem_start,
+    .cert_pem = ca_cert,
     .event_handler = ********,
     .keep_alive_enable = true,
 };

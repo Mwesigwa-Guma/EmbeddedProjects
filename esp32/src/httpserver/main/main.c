@@ -2,7 +2,7 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "wifi.h"
-#include "secrets.h"
+#include "/Users/mwesigwaguma/Desktop/repos/Projects/EmbeddedProjects/esp32/src/common/secrets.h"
 
 void app_main(void) {
     // Connect to WiFi
